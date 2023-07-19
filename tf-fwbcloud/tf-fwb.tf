@@ -9,7 +9,7 @@ terraform {
 
 provider "fortiwebcloud" {
   hostname   = "api.fortiweb-cloud.com"
-  api_token  = <API_FWB_TOKEN>
+  api_token  = "<API_FWB_TOKEN>"
 }
 
 resource "fortiwebcloud_app" "app_<APP_NAME>" {
