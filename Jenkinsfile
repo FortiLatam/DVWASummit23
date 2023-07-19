@@ -8,7 +8,7 @@ pipeline {
         AWS_DEFAULT_REGION = "us-east-1"
         APP_NAME="dvwa"
         API_FWB_TOKEN = credentials('FWB_TOKEN')
-        EXTERNAL_IP=""
+        //EXTERNAL_IP=""
     }
    
     stages {
@@ -84,7 +84,12 @@ pipeline {
         stage('FortiWeb-Cloud'){
             steps {
                  //sh 'sleep 15'
-                 script {
+                 sh """#!/bin/bash
+                     EXTERNAL_IP= kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"
+                     sed -i "s/<EXTERNAL_LBIP>/\$EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf
+                     
+                    """
+                 /*script {
                     EXTERNAL_IP = sh( script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"',
                     returnStdout: true)
                     //echo "teste ${EXTERNAL_IP}"
@@ -93,7 +98,7 @@ pipeline {
                  }
                  sh 'echo "teste ${EXTERNAL_IP}"'
                  sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
-                 sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
+                 sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'*/
                  sh 'sed -i "s/<API_FWB_TOKEN>/${API_FWB_TOKEN}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fwbcloud/tf-fwb.tf'
                  
