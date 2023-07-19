@@ -78,7 +78,17 @@ pipeline {
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
             }
         }*/
-        stage('FortiWeb-Cloud'){
+        def String myVar
+
+        stage('my-first-stage') {
+            myVar = sh(script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"', returnStdout: true)
+}
+
+        stage('my-second-stage') {
+            sh('sed -i "s/<EXTERNAL_LBIP>/${myVar}/" tf-fwbcloud/tf-fwb.tf')
+}
+
+        /*stage('FortiWeb-Cloud'){
             steps {
                  //sh 'sleep 15'
                  script {
@@ -98,6 +108,6 @@ pipeline {
                  sh 'terraform init'
                  //sh 'terraform apply -auto-approve'                 
             }
-        } 
+        } */
     }
 }
