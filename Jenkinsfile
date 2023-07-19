@@ -59,8 +59,8 @@ pipeline {
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" deployment.yml'
                  sh 'kubectl apply -f deployment.yml'
                  sh 'sleep 15'
-                 EXTERNAL_IP = sh 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"'
-                 sh 'echo ${EXTERNAL_IP}'
+                 env.EXTERNAL_IP = sh 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"'
+                 sh 'echo ${env.EXTERNAL_IP}'
                  /*
                  //If you are sure this deployment is already running and want to change the container image version, then you can use:
                  sh 'kubectl set image deployments/dvwa 371571523880.dkr.ecr.us-east-2.amazonaws.com/dvwaxperts:${BUILD_NUMBER}'*/
