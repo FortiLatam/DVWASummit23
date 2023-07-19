@@ -86,7 +86,7 @@ pipeline {
                  //sh 'sleep 15'
                  sh """#!/bin/bash
                      EXTERNAL_IP= kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"
-                     sed -i "s/<EXTERNAL_LBIP>/\$EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf
+                     sed -i "s/<EXTERNAL_LBIP>/$EXTERNAL_IP/" tf-fwbcloud/tf-fwb.tf
                      
                     """
                  /*script {
