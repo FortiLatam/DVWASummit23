@@ -8,6 +8,7 @@ pipeline {
         AWS_DEFAULT_REGION = "us-east-1"
         APP_NAME="dvwa"
         API_FWB_TOKEN = credentials('FWB_TOKEN')
+        EXTERNAL_IP=""
     }
    
     stages {
@@ -78,7 +79,7 @@ pipeline {
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
             }
         }*/
-        def String myVar
+        
 
         stage('my-first-stage') {
             myVar = sh(script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"', returnStdout: true)
@@ -88,17 +89,17 @@ pipeline {
             sh('sed -i "s/<EXTERNAL_LBIP>/${myVar}/" tf-fwbcloud/tf-fwb.tf')
 }
 
-        /*stage('FortiWeb-Cloud'){
+        stage('FortiWeb-Cloud'){
             steps {
                  //sh 'sleep 15'
                  script {
-                    env.EXTERNAL_IP = sh( script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"',
-                    returnStdout: true).trim()
+                    EXTERNAL_IP = sh( script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"',
+                    returnStdout: true)
                     //echo "teste ${EXTERNAL_IP}"
                    
                     //sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf
                  }
-                 sh 'echo "teste ${env.EXTERNAL_IP}"'
+                 sh 'echo "teste ${EXTERNAL_IP}"'
                  sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<API_FWB_TOKEN>/${API_FWB_TOKEN}/" tf-fwbcloud/tf-fwb.tf'
