@@ -81,14 +81,6 @@ pipeline {
         }*/
         
 
-        stage('my-first-stage') {
-            myVar = sh(script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"', returnStdout: true)
-}
-
-        stage('my-second-stage') {
-            sh('sed -i "s/<EXTERNAL_LBIP>/${myVar}/" tf-fwbcloud/tf-fwb.tf')
-}
-
         stage('FortiWeb-Cloud'){
             steps {
                  //sh 'sleep 15'
@@ -109,6 +101,6 @@ pipeline {
                  sh 'terraform init'
                  //sh 'terraform apply -auto-approve'                 
             }
-        } */
+        } 
     }
 }
