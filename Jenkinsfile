@@ -82,10 +82,10 @@ pipeline {
             steps {
                  //sh 'sleep 15'
                  script {
-                    env.EXTERNAL_IP = sh( script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"',
+                    EXTERNAL_IP = sh( script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"',
                     returnStdout: true).trim()
-                    //echo "teste ${env.EXTERNAL_IP}"
-                    sed -i 's/<EXTERNAL_IP>/${env.EXTERNAL_IP}/' tf-fwbcloud/tf-fwb.tf
+                    echo "teste ${EXTERNAL_IP}"
+                    sed -i "s/<EXTERNAL_IP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf
                  }
                  sh 'sed -i "s/<API_FWB_TOKEN>/${API_FWB_TOKEN}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fwbcloud/tf-fwb.tf'
