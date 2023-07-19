@@ -19,7 +19,7 @@ resource "fortiwebcloud_app" "app_<APP_NAME>" {
     http  = 80
     https = 443
   }
-  origin_server_ip      = "<EXTERNAL_IP>"
+  origin_server_ip      = "<EXTERNAL_LBIP>"
   origin_server_service = "HTTP"
   origin_server_port    = "8081"
   cdn                   = false
