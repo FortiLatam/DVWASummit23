@@ -7,6 +7,7 @@ pipeline {
         REPOSITORY_URI = "public.ecr.aws/f9n2h3p5/dvwapub"
         AWS_DEFAULT_REGION = "us-east-1"
         APP_NAME="dvwa"
+        API_FWB_TOKEN = credentials('FWB_TOKEN')
     }
    
     stages {
@@ -77,5 +78,15 @@ pipeline {
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
             }
         }*/
+        stage('FortiWeb-Cloud'){
+            steps {
+                 sh 'sed -i "s/<API_FWB_TOKEN>/${API_FWB_TOKEN}/" tf-fwbcloud/tf-fwb.tf'
+                 sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fwbcloud/tf-fwb.tf'
+                 sh 'sed -i "s/<EXTERNAL_IP>/${env.EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
+                 sh 'cd tf-fwbcloud'
+                 sh 'terraform init'
+                 sh 'terraform apply -auto-approve'                 
+            }
+        } 
     }
 }
