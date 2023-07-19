@@ -85,7 +85,7 @@ pipeline {
                  sh 'sed -i "s/<EXTERNAL_IP>/${env.EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'cd tf-fwbcloud'
                  sh 'terraform init'
-                 sh 'terraform apply -auto-approve'                 
+                 //sh 'terraform apply -auto-approve'                 
             }
         } 
     }
