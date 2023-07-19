@@ -82,10 +82,10 @@ pipeline {
             steps {
                  //sh 'sleep 15'
                  script {
-                    EXTERNAL_IP = sh( script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"',
+                    def EXTERNAL_IP = sh( script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"',
                     returnStdout: true).trim()
                     //echo "teste ${EXTERNAL_IP}"
-                    env.EXTERNAL_EIP= EXTERNAL_IP
+                    env.EXTERNAL_EIP = EXTERNAL_IP
                     //sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf
                  }
                  sh 'echo "teste ${env.EXTERNAL_EIP}"'
