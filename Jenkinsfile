@@ -60,7 +60,7 @@ pipeline {
                  sh 'kubectl apply -f deployment.yml'
                  sh 'sleep 15'
                  script {
-                    env.EXTERNAL_IP = sh (kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}")
+                    env.EXTERNAL_IP = sh( script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"')
                     echo ${env.EXTERNAL_IP}
                  }
                  /*
