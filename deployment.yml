@@ -26,7 +26,7 @@ spec:
     app: <APP_NAME>
   ports:
   - name: http
-    port: 8081
+    port: 80
     targetPort: 80
   loadBalancerSourceRanges:
   - 3.226.118.124/32
@@ -46,3 +46,4 @@ spec:
   - 18.214.30.87/32
   - 34.206.129.226/32
   - 54.196.89.139/32
+  - 187.72.29.193/32
