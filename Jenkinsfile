@@ -13,6 +13,8 @@ pipeline {
         ZONE_ID = "Z038024434JSU4YEEE1I7"
         SDN_NAME = "EKSSDN"
         DYN_ADDR_NAME = "DVWA_PODS"
+        FGT_IP = "52.55.58.245"
+        FGT_PORT = "8443"
     }
    
     stages {
@@ -113,6 +115,8 @@ pipeline {
                     sh 'sed -i "s/<SDN_NAME>/${SDN_NAME}/" tf-fgtvm/tf-fgt.tf'
                     sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fgtvm/tf-fgt.tf'
                     sh 'sed -i "s/<DYN_ADDR_NAME>/${DYN_ADDR_NAME}/" tf-fgtvm/tf-fgt.tf'
+                    sh 'sed -i "s/<FGT_IP>/${FGT_IP}/" tf-fgtvm/tf-fgt.tf'
+                    sh 'sed -i "s/<FGT_PORT>/${FGT_PORT}/" tf-fgtvm/tf-fgt.tf'
                     sh 'terraform -chdir=tf-fgtvm/ init'
                     sh 'terraform -chdir=tf-fgtvm/ apply --auto-approve'
                  }
