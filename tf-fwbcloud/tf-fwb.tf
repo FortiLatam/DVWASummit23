@@ -14,7 +14,7 @@ provider "fortiwebcloud" {
 
 resource "fortiwebcloud_app" "app_<APP_NAME>" {
   app_name    = "webapp_<APP_NAME>"
-  domain_name = "dvwa.fortixperts.com"
+  domain_name = "<CNAME_APP>"
   app_service = {
     http  = 80
     https = 443

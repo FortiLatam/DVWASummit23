@@ -1,0 +1,11 @@
+{
+    "Comment": "Change DVWA record ",
+    "Changes": [{
+    "Action": "UPSERT",
+                "ResourceRecordSet": {
+                            "Name": "<CNAME_APP>",
+                            "Type": "CNAME",
+                            "TTL": 300,
+                         "ResourceRecords": [{ "Value": "<CNAME_FWB>"}]
+}}]
+}

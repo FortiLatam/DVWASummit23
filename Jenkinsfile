@@ -1,5 +1,3 @@
-def fwb_cname
-
 pipeline {
     agent any
     environment {
@@ -10,6 +8,8 @@ pipeline {
         AWS_DEFAULT_REGION = "us-east-1"
         APP_NAME="dvwa"
         API_FWB_TOKEN = credentials('FWB_TOKEN')
+        CNAME_APP = "dvwa.fortixperts.com"
+        ZONE_ID = "Z038024434JSU4YEEE1I7"
     }
    
     stages {
@@ -94,6 +94,7 @@ pipeline {
                  sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<API_FWB_TOKEN>/${API_FWB_TOKEN}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fwbcloud/tf-fwb.tf'
+                 sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" tf-fwbcloud/tf-fwb.tf'
                                   
                  sh 'terraform -chdir=tf-fwbcloud/ init'
                  sh 'terraform -chdir=tf-fwbcloud/ apply --auto-approve'    
@@ -104,7 +105,11 @@ pipeline {
         stage('Change DNS'){
             steps {
                  script { 
-                    sh 'echo ${fwb_cname}'
+                    sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" r53app.json'
+                    sh '''#!/bin/bash
+                    CNAME_FWB=`terraform output -json | jq .cname.value -r |tr -d '"|]|['`
+                    sed -i "s/<CNAME_FWB>/${CNAME_FWB}/" r53app.json '''
+                    sh 'aws route53 change-resource-record-sets --hosted-zone-id ${ZONE_ID} --change-batch file://r53app.json'
                  }
             }
         }
