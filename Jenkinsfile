@@ -92,10 +92,9 @@ pipeline {
                  sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<API_FWB_TOKEN>/${API_FWB_TOKEN}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fwbcloud/tf-fwb.tf'
-                 
-                 sh 'cd tf-fwbcloud'
-                 sh 'terraform init'
-                 sh 'terraform apply -auto-approve'                 
+                                  
+                 sh 'terraform -chdir=tf-fwbcloud/ init'
+                 sh 'terraform -chdir=tf-fwbcloud/ apply -auto-approve'                 
             }
         } 
     }
