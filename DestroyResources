@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    environment {
+        IMAGE_REPO_NAME="dvwapub"
+    }
+   
+       
+      stage('Delete from EKS'){
+            steps {
+                 sh 'kubectl delete -f deployment.yml'
+            }
+        } 
+
+
+        stage('Delete from FortiWeb-Cloud'){
+            steps {                
+                 sh 'terraform -chdir=tf-fwbcloud/ init'
+                 sh 'terraform -chdir=tf-fwbcloud/ destroy --auto-approve'    
+          
+            }
+        }
+
+        stage('Delete FortiGate settings'){
+            steps {
+                 script { 
+                    sh 'terraform -chdir=tf-fgtvm/ init'
+                    sh 'terraform -chdir=tf-fgtvm/ destroy --auto-approve'
+                 }
+            }
+        }
+
+    }
+}

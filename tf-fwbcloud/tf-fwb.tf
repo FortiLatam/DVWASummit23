@@ -24,6 +24,7 @@ resource "fortiwebcloud_app" "app_<APP_NAME>" {
   origin_server_port    = "80"
   cdn                   = false
   continent_cdn         = false
+  block                 = true
 }
 
 output "cname" {

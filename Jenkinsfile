@@ -8,8 +8,11 @@ pipeline {
         AWS_DEFAULT_REGION = "us-east-1"
         APP_NAME="dvwa"
         API_FWB_TOKEN = credentials('FWB_TOKEN')
+        API_FGT_TOKEN = credentials('FGT_TOKEN')
         CNAME_APP = "dvwa.fortixperts.com"
         ZONE_ID = "Z038024434JSU4YEEE1I7"
+        SDN_NAME = "EKSSDN"
+        DYN_ADDR_NAME = "DVWA_PODS"
     }
    
     stages {
@@ -56,19 +59,13 @@ pipeline {
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest'
             }
         }*/
+        
       stage('Deploy'){
             steps {
                  sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment.yml'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" deployment.yml'
                  sh 'kubectl apply -f deployment.yml'
-                 /*sh 'sleep 15'
-                 script {
-                    env.EXTERNAL_IP = sh( script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"',
-                    returnStdout: true).trim()
-                    echo "teste ${env.EXTERNAL_IP}"
-                 }
-                 
-                 /*
+                 sh 'sleep 15'
                  //If you are sure this deployment is already running and want to change the container image version, then you can use:
                  sh 'kubectl set image deployments/dvwa 371571523880.dkr.ecr.us-east-2.amazonaws.com/dvwaxperts:${BUILD_NUMBER}'*/
             }
@@ -82,9 +79,8 @@ pipeline {
         }*/
         
 
-        stage('FortiWeb-Cloud'){
+        stage('Add app to FortiWeb-Cloud'){
             steps {
-
                  script {
                     sh '''#!/bin/bash
                     EXTERNAL_IP=`kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"`
@@ -94,15 +90,14 @@ pipeline {
                  sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<API_FWB_TOKEN>/${API_FWB_TOKEN}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fwbcloud/tf-fwb.tf'
-                 sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" tf-fwbcloud/tf-fwb.tf'
-                                  
+                 sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" tf-fwbcloud/tf-fwb.tf'                 
                  sh 'terraform -chdir=tf-fwbcloud/ init'
                  sh 'terraform -chdir=tf-fwbcloud/ apply --auto-approve'    
           
             }
         }
 
-        stage('Change DNS'){
+        stage('Change DNS record'){
             steps {
                  script { 
                     sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" r53app.json'
@@ -113,5 +108,18 @@ pipeline {
                  }
             }
         }
+        stage('Add FortiGate settings'){
+            steps {
+                 script { 
+                    sh 'sed -i "s/<API_FGT_TOKEN>/${API_FGT_TOKEN}/" tf-fgtvm/tf-fgt.tf'
+                    sh 'sed -i "s/<SDN_NAME>/${SDN_NAME}/" tf-fgtvm/tf-fgt.tf'
+                    sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fgtvm/tf-fgt.tf'
+                    sh 'sed -i "s/<DYN_ADDR_NAME>/${DYN_ADDR_NAME}/" tf-fgtvm/tf-fgt.tf'
+                    sh 'terraform -chdir=tf-fgtvm/ init'
+                    sh 'terraform -chdir=tf-fgtvm/ apply --auto-approve'
+                 }
+            }
+        }
+
     }
 }
