@@ -83,17 +83,11 @@ pipeline {
 
         stage('FortiWeb-Cloud'){
             steps {
-                 //sh 'sleep 15'
-                 /*sh '''#!/bin/bash
-                     EXTERNAL_IP= `kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"`
-                     echo "teste \$EXTERNAL_IP"
-                    '''*/
+
                  script {
-                    EXTERNAL_IP = sh( script: 'kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"',
-                    returnStdout: true).trim()
-                    //echo "teste ${EXTERNAL_IP}"
-                   
-                    //sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf
+                    sh '''#!/bin/bash
+                    EXTERNAL_IP=`kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"`
+                    sed -i "s/<EXTERNAL_LBIP>/$EXTERNAL_IP/" tf-fwbcloud/tf-fwb.tf''' 
                  }
                  sh 'echo "teste ${EXTERNAL_IP}"'
                  sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
