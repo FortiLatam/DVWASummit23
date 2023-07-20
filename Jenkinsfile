@@ -94,7 +94,7 @@ pipeline {
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fwbcloud/tf-fwb.tf'
                                   
                  sh 'terraform -chdir=tf-fwbcloud/ init'
-                 sh 'terraform -chdir=tf-fwbcloud/ apply -auto-approve'                 
+                 sh 'terraform -chdir=tf-fwbcloud/ apply --auto-approve'                 
             }
         } 
     }

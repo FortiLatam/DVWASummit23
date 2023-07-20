@@ -2,7 +2,7 @@ version: v1
 
 id:
   org: 60128e83-07b2-447a-be47-7e3405a278ad
-  app: 47ea5f9f-13c6-4808-8886-360811ff5ef3
+  app: 71c5506b-326a-4814-a62c-36becbc2cd19
 
 scanners:
   - sast
@@ -13,6 +13,8 @@ scanners:
   - container   
     
 #dast:
-#  url: http://XXXXX.us-east-1.elb.amazonaws.com:8081/
-#  fortipentest_scanner: false #true|false
+#  url: http://ddvwa.tdc.fortixperts.com:8081/
 #  full_scan: true #true|false
+
+fail_pipeline:
+  risk_rating: 9
