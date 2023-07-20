@@ -98,7 +98,7 @@ pipeline {
                                   
                  sh 'terraform -chdir=tf-fwbcloud/ init'
                  sh 'terraform -chdir=tf-fwbcloud/ apply --auto-approve'    
-                fwb_cname = sh(returnStdout: true, script: "terraform output cname").trim()             
+          
             }
         }
 
@@ -107,7 +107,7 @@ pipeline {
                  script { 
                     sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" r53app.json'
                     sh '''#!/bin/bash
-                    CNAME_FWB=`terraform output -json | jq .cname.value -r |tr -d '"|]|['`
+                    CNAME_FWB=`terraform -chdir=tf-fwbcloud/ output -json | jq .cname.value -r |tr -d '"|]|['`
                     sed -i "s/<CNAME_FWB>/${CNAME_FWB}/" r53app.json '''
                     sh 'aws route53 change-resource-record-sets --hosted-zone-id ${ZONE_ID} --change-batch file://r53app.json'
                  }
