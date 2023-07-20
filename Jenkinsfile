@@ -1,3 +1,5 @@
+def fwb_cname
+
 pipeline {
     agent any
     environment {
@@ -94,8 +96,17 @@ pipeline {
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fwbcloud/tf-fwb.tf'
                                   
                  sh 'terraform -chdir=tf-fwbcloud/ init'
-                 sh 'terraform -chdir=tf-fwbcloud/ apply --auto-approve'                 
+                 sh 'terraform -chdir=tf-fwbcloud/ apply --auto-approve'    
+                fwb_cname = sh(returnStdout: true, script: "terraform output cname").trim()             
             }
-        } 
+        }
+
+        stage('Change DNS'){
+            steps {
+                 script { 
+                    sh 'echo ${fwb_cname}'
+                 }
+            }
+        }
     }
 }
