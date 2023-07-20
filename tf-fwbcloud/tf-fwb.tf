@@ -21,7 +21,7 @@ resource "fortiwebcloud_app" "app_<APP_NAME>" {
   }
   origin_server_ip      = "<EXTERNAL_LBIP>"
   origin_server_service = "HTTP"
-  origin_server_port    = "8081"
+  origin_server_port    = "80"
   cdn                   = false
   continent_cdn         = false
 }
