@@ -25,3 +25,7 @@ resource "fortiwebcloud_app" "app_<APP_NAME>" {
   cdn                   = false
   continent_cdn         = false
 }
+
+output "cname" {
+  value = fortiwebcloud_app.app_<APP_NAME>.cname
+}

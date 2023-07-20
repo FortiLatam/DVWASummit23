@@ -1,4 +1,3 @@
-def EXTERNAL_IP=""
 pipeline {
     agent any
     environment {
@@ -96,7 +95,7 @@ pipeline {
                  
                  sh 'cd tf-fwbcloud'
                  sh 'terraform init'
-                 //sh 'terraform apply -auto-approve'                 
+                 sh 'terraform apply -auto-approve'                 
             }
         } 
     }
