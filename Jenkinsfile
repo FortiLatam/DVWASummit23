@@ -59,15 +59,13 @@ pipeline {
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest'
             }
         }*/
-        
+
       stage('Deploy'){
             steps {
                  sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment.yml'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" deployment.yml'
                  sh 'kubectl apply -f deployment.yml'
                  sh 'sleep 15'
-                 //If you are sure this deployment is already running and want to change the container image version, then you can use:
-                 sh 'kubectl set image deployments/dvwa 371571523880.dkr.ecr.us-east-2.amazonaws.com/dvwaxperts:${BUILD_NUMBER}'*/
             }
         } 
        /*stage('DAST'){
