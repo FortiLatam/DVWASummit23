@@ -25,12 +25,13 @@ resource "fortios_firewall_address" "k8sappaddr" {
 resource "fortios_firewall_policy" "fwpolrule" {
   action                      = "accept"
   av_profile                  = "default"
-  inspection_mode             = "flow"
+  inspection_mode             = "proxy"
   ips_sensor                  = "default"
   logtraffic                  = "utm"
   name                        = "Allow <APP_NAME> egress"
   schedule                    = "always"
-  ssl_ssh_profile             = "certificate-inspection"
+  ssl_ssh_profile             = "deep-inspection"
+  dlp_profile                 = "demo"
   status                      = "enable"
   utm_status                  = "enable"
   nat                         = "enable"
@@ -54,7 +55,7 @@ resource "fortios_firewall_policy" "fwpolrule" {
   }
     depends_on = [fortios_firewall_address.k8sappaddr]
 }
-resource "fortios_firewall_security_policyseq" "test1" {
+resource "fortios_firewall_security_policyseq" "fwpolorder" {
   policy_src_id         = fortios_firewall_policy.fwpolrule.policyid
   policy_dst_id         = 6
   alter_position        = "before"
