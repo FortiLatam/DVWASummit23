@@ -29,25 +29,34 @@ resource "fortios_firewall_policy" "fwpolrule" {
   ips_sensor                  = "default"
   logtraffic                  = "utm"
   name                        = "Allow <APP_NAME> egress"
-  policyid                    = 2
   schedule                    = "always"
   ssl_ssh_profile             = "certificate-inspection"
   status                      = "enable"
   utm_status                  = "enable"
   nat                         = "enable"
+    service {
+    name = "HTTP"
+  }
+  service {
+    name = "HTTPS"
+  }
   dstintf {
       name = "port1"
-  }
-  internet_service_name {
-      name = "Amazon-AWS"
-  }
-  internet_service_name {
-      name = "GitHub-GitHub"
-  }
-  srcaddr {
-      name = "<DYN_ADDR_NAME>"
   }
   srcintf {
       name = "gwlb1-tunnels"
   }
+  dstaddr {
+    name = "all"
+  }
+  srcaddr {
+      name = "<DYN_ADDR_NAME>"
+  }
+    depends_on = [fortios_firewall_address.k8sappaddr]
+}
+resource "fortios_firewall_security_policyseq" "test1" {
+  policy_src_id         = fortios_firewall_policy.fwpolrule.policyid
+  policy_dst_id         = 6
+  alter_position        = "before"
+  enable_state_checking = true
 }
