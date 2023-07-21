@@ -19,14 +19,14 @@ pipeline {
    
     stages {
     
-            stage('Logging into AWS ECR') {
+    stage('Logging into AWS ECR') {
             steps {
                 script {
                 sh """aws ecr-public get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI} """
                 }
                  
             }
-        } 
+    } 
     
     stage('Clone repository') { 
             steps { 
@@ -54,37 +54,30 @@ pipeline {
          }
         }
       }
-      /*stage('SAST'){
+    stage('SAST'){
             steps {
                  sh 'env | grep -E "JENKINS_HOME|BUILD_ID|GIT_BRANCH|GIT_COMMIT" > /tmp/env'
                  sh 'docker pull registry.fortidevsec.forticloud.com/fdevsec_sast:latest'
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest'
             }
-        }*/
+    }
 
-      stage('Deploy'){
+    stage('Deploy'){
             steps {
                  sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment.yml'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" deployment.yml'
                  sh 'kubectl apply -f deployment.yml'
                  sh 'sleep 15'
             }
-        } 
-       /*stage('DAST'){
-            steps {
-                 sh 'env | grep -E "JENKINS_HOME|BUILD_ID|GIT_BRANCH|GIT_COMMIT" > /tmp/env'
-                 sh 'docker pull registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
-                 sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
-            }
-        }*/
-        
+    } 
 
-        stage('Add app to FortiWeb-Cloud'){
+    stage('Add app to FortiWeb-Cloud'){
             steps {
                  script {
                     sh '''#!/bin/bash
                     EXTERNAL_IP=`kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"`
-                    sed -i "s/<EXTERNAL_LBIP>/$EXTERNAL_IP/" tf-fwbcloud/tf-fwb.tf''' 
+                    sed -i "s/<EXTERNAL_LBIP>/$EXTERNAL_IP/" tf-fwbcloud/tf-fwb.tf
+                    sed -i "s/<DAST_URL>/$EXTERNAL_IP/" fdevsec.yaml''' 
                  }
                  sh 'echo "teste ${EXTERNAL_IP}"'
                  sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
@@ -95,9 +88,9 @@ pipeline {
                  sh 'terraform -chdir=tf-fwbcloud/ apply --auto-approve'    
           
             }
-        }
+    }
 
-        stage('Change DNS record'){
+    stage('Change DNS record'){
             steps {
                  script { 
                     sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" r53app.json'
@@ -107,8 +100,9 @@ pipeline {
                     sh 'aws route53 change-resource-record-sets --hosted-zone-id ${ZONE_ID} --change-batch file://r53app.json'
                  }
             }
-        }
-        stage('Add FortiGate settings'){
+    }
+
+    stage('Add FortiGate settings'){
             steps {
                  script { 
                     sh 'sed -i "s/<API_FGT_TOKEN>/${API_FGT_TOKEN}/" tf-fgtvm/tf-fgt.tf'
@@ -121,7 +115,16 @@ pipeline {
                     sh 'terraform -chdir=tf-fgtvm/ apply --auto-approve'
                  }
             }
-        }
-
     }
+
+    stage('DAST'){
+            steps {
+                 sh 'env | grep -E "JENKINS_HOME|BUILD_ID|GIT_BRANCH|GIT_COMMIT" > /tmp/env'
+                 sh 'docker pull registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
+                 sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
+            }
+    }
+
+  
+}
 }

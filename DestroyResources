@@ -4,7 +4,7 @@ pipeline {
         IMAGE_REPO_NAME="dvwapub"
     }
    
-       
+    stages {   
       stage('Delete from EKS'){
             steps {
                  sh 'kubectl delete -f deployment.yml'
@@ -29,5 +29,5 @@ pipeline {
             }
         }
 
+    }
 }
-
