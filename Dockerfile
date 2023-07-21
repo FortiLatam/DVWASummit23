@@ -7,7 +7,7 @@ RUN apt-get update && \
     echo mariadb-server mysql-server/root_password_again password p4ssw0rd | debconf-set-selections && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \    
     mariadb-server &&\
-    apt-get install -y apache2 php wget php-mysqli php-gd libapache2-mod-php
+    apt-get install -y apache2 php wget php-mysqli php-gd libapache2-mod-php curl
   
 COPY . /var/www/html
 COPY php.ini /etc/php/7.3/apache2/php.ini
