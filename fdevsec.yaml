@@ -13,7 +13,7 @@ scanners:
   - container   
     
 dast:
-  url: <DAST_URL>
+  url: http://<DAST_URL>
   full_scan: true #true|false
 
 fail_pipeline:
