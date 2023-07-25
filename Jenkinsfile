@@ -71,7 +71,7 @@ END SAST*/
                  sh 'sleep 15'
             }
     } 
-/*ADD to FWB
+/*ADD to FWB*/
     stage('Add app to FortiWeb-Cloud'){
             steps {
                  script {
@@ -102,7 +102,7 @@ END SAST*/
                  }
             }
     }
-END FWB*/
+/*END FWB*/
 /*FGT
     stage('Add FortiGate settings'){
             steps {
