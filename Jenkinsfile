@@ -81,7 +81,7 @@ END SAST*/
                     sed -i "s/<DAST_URL>/$EXTERNAL_IP/" fdevsec.yaml''' 
                  }
                  sh 'echo "Waiting for load balancer be ready..." |sleep 15'
-                 sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
+                 //sh 'sed -i "s/<EXTERNAL_LBIP>/${EXTERNAL_IP}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<API_FWB_TOKEN>/${API_FWB_TOKEN}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" tf-fwbcloud/tf-fwb.tf'
                  sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" tf-fwbcloud/tf-fwb.tf'                 
