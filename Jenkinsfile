@@ -35,7 +35,7 @@ pipeline {
                 }
             }
         }  
-/*SAST    
+/*SAST*/    
     stage('SAST'){
             steps {
                  sh 'env | grep -E "JENKINS_HOME|BUILD_ID|GIT_BRANCH|GIT_COMMIT" > /tmp/env'
@@ -43,7 +43,7 @@ pipeline {
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest'
             }
     }
-END SAST*/
+/*END SAST*/
     // Building Docker images
     stage('Building image') {
       steps{
@@ -132,7 +132,7 @@ END SAST*/
             }
     }
 /*END FGT*/
-/*DAST
+/*DAST*/
     stage('DAST'){
             steps {
                  sh 'env | grep -E "JENKINS_HOME|BUILD_ID|GIT_BRANCH|GIT_COMMIT" > /tmp/env'
@@ -140,7 +140,7 @@ END SAST*/
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
             }
     }
-END DAST*/
+/*END DAST*/
   
 }
 }
