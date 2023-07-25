@@ -71,7 +71,7 @@ END SAST*/
                  sh 'sleep 30'
             }
     } 
-/*ADD to FWB*/
+/*ADD to FWB
     stage('Add app to FortiWeb-Cloud'){
             steps {
                  script {
@@ -91,7 +91,7 @@ END SAST*/
             }
     }
 
-    stage('Change DNS record'){
+    stage('Change DNS record FWB'){
             steps {
                  script { 
                     sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" r53app.json'
@@ -102,7 +102,20 @@ END SAST*/
                  }
             }
     }
-/*END FWB*/
+END FWB*/
+/*Change DNS Record WITHOUT FWB*/
+    stage('Change DNS record'){
+            steps {
+                 script { 
+                    sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" r53app.json'
+                    sh '''#!/bin/bash
+                    CNAME_FWB=`kubectl get svc dvwa --output="jsonpath={.status.loadBalancer.ingress[0].hostname}"`
+                    sed -i "s/<CNAME_FWB>/${CNAME_FWB}/" r53app.json '''
+                    sh 'aws route53 change-resource-record-sets --hosted-zone-id ${ZONE_ID} --change-batch file://r53app.json'
+                 }
+            }
+    }
+/* END Change DNS Record WITHOUT FWB*/
 /*FGT
     stage('Add FortiGate settings'){
             steps {
