@@ -116,7 +116,7 @@ END SAST*/
             }
     }
  END Change DNS Record WITHOUT FWB*/
-/*FGT
+/*FGT*/
     stage('Add FortiGate settings'){
             steps {
                  script { 
@@ -131,7 +131,7 @@ END SAST*/
                  }
             }
     }
-END FGT*/
+/*END FGT*/
 /*DAST
     stage('DAST'){
             steps {
