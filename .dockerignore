@@ -1,0 +1,7 @@
+.git
+destroyResources.sh
+Dockerfile
+fdevsec*
+Jenkinsfile
+r53*
+tf-*
