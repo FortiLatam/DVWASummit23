@@ -68,7 +68,7 @@ END SAST*/
                  sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment.yml'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" deployment.yml'
                  sh 'kubectl apply -f deployment.yml'
-                 sh 'sleep 15'
+                 sh 'sleep 30'
             }
     } 
 /*ADD to FWB*/
