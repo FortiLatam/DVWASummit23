@@ -35,7 +35,7 @@ pipeline {
                 }
             }
         }  
-    
+/*SAST    
     stage('SAST'){
             steps {
                  sh 'env | grep -E "JENKINS_HOME|BUILD_ID|GIT_BRANCH|GIT_COMMIT" > /tmp/env'
@@ -43,7 +43,7 @@ pipeline {
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest'
             }
     }
-
+END SAST*/
     // Building Docker images
     stage('Building image') {
       steps{
@@ -71,7 +71,7 @@ pipeline {
                  sh 'sleep 15'
             }
     } 
-
+/*ADD to FWB
     stage('Add app to FortiWeb-Cloud'){
             steps {
                  script {
@@ -102,7 +102,8 @@ pipeline {
                  }
             }
     }
-
+END FWB*/
+/*FGT
     stage('Add FortiGate settings'){
             steps {
                  script { 
@@ -117,7 +118,8 @@ pipeline {
                  }
             }
     }
-
+END FGT*/
+/*DAST
     stage('DAST'){
             steps {
                  sh 'env | grep -E "JENKINS_HOME|BUILD_ID|GIT_BRANCH|GIT_COMMIT" > /tmp/env'
@@ -125,7 +127,7 @@ pipeline {
                  sh 'docker run --rm --env-file /tmp/env --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_dast:latest'
             }
     }
-
+END DAST*/
   
 }
 }
