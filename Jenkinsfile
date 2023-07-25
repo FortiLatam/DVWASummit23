@@ -71,7 +71,7 @@ END SAST*/
                  sh 'sleep 30'
             }
     } 
-/*ADD to FWB
+/*ADD to FWB*/
     stage('Add app to FortiWeb-Cloud'){
             steps {
                  script {
@@ -102,8 +102,8 @@ END SAST*/
                  }
             }
     }
-END FWB*/
-/*Change DNS Record WITHOUT FWB*/
+/*END FWB*/
+/*Change DNS Record WITHOUT FWB
     stage('Change DNS record'){
             steps {
                  script { 
@@ -115,7 +115,7 @@ END FWB*/
                  }
             }
     }
-/* END Change DNS Record WITHOUT FWB*/
+ END Change DNS Record WITHOUT FWB*/
 /*FGT
     stage('Add FortiGate settings'){
             steps {
