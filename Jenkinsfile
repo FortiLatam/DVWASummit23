@@ -90,7 +90,7 @@ END SAST*/
           
             }
     }
-/*
+
     stage('Change DNS record FWB'){
             steps {
                  script { 
@@ -102,7 +102,7 @@ END SAST*/
                  }
             }
     }
-END FWB*/
+/*END FWB*/
 /*Change DNS Record WITHOUT FWB
     stage('Change DNS record'){
             steps {
