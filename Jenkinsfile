@@ -13,7 +13,7 @@ pipeline {
         ZONE_ID = "Z038024434JSU4YEEE1I7"
         SDN_NAME = "EKSSDN"
         DYN_ADDR_NAME = "DVWA_PODS"
-        FGT_IP = "52.55.58.245"
+        FGT_IP = "34.204.90.236"
         FGT_PORT = "8443"
     }
    
