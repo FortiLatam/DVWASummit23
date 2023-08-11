@@ -1,0 +1,31 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: <APP_NAME>
+spec:
+  template:
+    metadata:
+      labels:
+        app: <APP_NAME>
+    spec:
+      containers:
+      - name: dvwa
+        image: public.ecr.aws/f9n2h3p5/dvwapub:<TAG>
+        imagePullPolicy: "Always"
+  selector:
+    matchLabels:
+      app: <APP_NAME>
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: <APP_NAME>
+spec:
+  type: LoadBalancer
+  selector:
+    app: <APP_NAME>
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+

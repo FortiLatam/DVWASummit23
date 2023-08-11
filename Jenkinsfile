@@ -62,7 +62,7 @@ pipeline {
          }
         }
       }
-
+/*ADD to FWB*/
     stage('Deploy'){
             steps {
                  sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment.yml'
@@ -71,7 +71,7 @@ pipeline {
                  sh 'sleep 30'
             }
     } 
-/*ADD to FWB*/
+
     stage('Add app to FortiWeb-Cloud'){
             steps {
                  script {
@@ -103,7 +103,17 @@ pipeline {
             }
     }
 /*END FWB*/
-/*Change DNS Record WITHOUT FWB
+/* Deploy and Change DNS Record WITHOUT FWB
+
+    stage('Deploy'){
+            steps {
+                 sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment-public.yml'
+                 sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" deployment-public.yml'
+                 sh 'kubectl apply -f deployment-public.yml'
+                 sh 'sleep 30'
+            }
+    } 
+
     stage('Change DNS record'){
             steps {
                  script { 
