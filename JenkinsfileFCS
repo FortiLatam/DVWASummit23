@@ -76,7 +76,7 @@ END SAST*/
             }
     } 
 
-    stage('Change DNS record'){
+  /*  stage('Change DNS record'){
             steps {
                  script { 
                     sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" r53app.json'
@@ -86,7 +86,7 @@ END SAST*/
                     sh 'aws route53 change-resource-record-sets --hosted-zone-id ${ZONE_ID} --change-batch file://r53app.json --profile master'
                  }
             }
-    }
+    }*/
  */END Change DNS Record WITHOUT FWB*/
 
 
