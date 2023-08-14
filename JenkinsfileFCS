@@ -65,7 +65,7 @@ END SAST*/
         }
       }
 
-/* Deploy and Change DNS Record WITHOUT FWB
+/* Deploy and Change DNS Record WITHOUT FWB*/
 
     stage('Deploy'){
             steps {
@@ -75,8 +75,8 @@ END SAST*/
                  sh 'sleep 30'
             }
     } 
-*/
-  /*  stage('Change DNS record'){
+
+   stage('Change DNS record'){
             steps {
                  script { 
                     sh 'sed -i "s/<CNAME_APP>/${CNAME_APP}/" r53app.json'
@@ -86,11 +86,11 @@ END SAST*/
                     sh 'aws route53 change-resource-record-sets --hosted-zone-id ${ZONE_ID} --change-batch file://r53app.json --profile master'
                  }
             }
-    }*/
+    }
  /*END Change DNS Record WITHOUT FWB*/
 
 
-/*ADD to FWB*/
+/*ADD to FWB
     stage('Deploy'){
             steps {
                  sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment.yml'
@@ -130,11 +130,11 @@ END SAST*/
                  }
             }
     }
-/*END FWB*/
+END FWB*/
 
         
         
-/*FGT*/
+/*FGT
     stage('Add FortiGate settings'){
             steps {
                  script { 
@@ -149,7 +149,7 @@ END SAST*/
                  }
             }
     }
-/*END FGT*/
+END FGT*/
 /*DAST
     stage('DAST'){
             steps {
