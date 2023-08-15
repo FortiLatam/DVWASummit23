@@ -65,7 +65,7 @@ END SAST*/
         }
       }
 
-/* Deploy WITHOUT FWB*/
+/* Deploy WITHOUT FWB
 
     stage('Deploy'){
             steps {
@@ -77,7 +77,7 @@ END SAST*/
     } 
 
 
- /*END Deploy WITHOUT FWB*/
+ END Deploy WITHOUT FWB*/
 
 
 /*ADD to FWB*/
