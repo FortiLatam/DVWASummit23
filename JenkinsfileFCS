@@ -80,7 +80,7 @@ END SAST*/
  /*END Deploy WITHOUT FWB*/
 
 
-/*ADD to FWB
+/*ADD to FWB*/
     stage('Deploy'){
             steps {
                  sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment.yml'
@@ -120,7 +120,7 @@ END SAST*/
                  }
             }
     }
-END FWB*/
+/*END FWB*/
 
         
         
