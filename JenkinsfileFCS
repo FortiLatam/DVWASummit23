@@ -65,28 +65,28 @@ END SAST*/
         }
       }
 
-/* Deploy WITHOUT FWB
+/* Deploy WITHOUT FWB*/
 
     stage('Deploy'){
             steps {
                  sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment-public.yml'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" deployment-public.yml'
                  sh 'kubectl apply -f deployment-public.yml'
-                 //sh 'sleep 30'
+                 sh 'sleep 30'
             }
     } 
 
 
- END Deploy WITHOUT FWB*/
+ /*END Deploy WITHOUT FWB*/
 
 
-/*ADD to FWB*/
+/*ADD to FWB
     stage('Deploy'){
             steps {
                  sh 'sed -i "s/<TAG>/${IMAGE_TAG}-${BUILD_NUMBER}/" deployment.yml'
                  sh 'sed -i "s/<APP_NAME>/${APP_NAME}/" deployment.yml'
                  sh 'kubectl apply -f deployment.yml'
-                 sh 'sleep 30'
+                 //sh 'sleep 30'
             }
     } 
 
@@ -120,7 +120,7 @@ END SAST*/
                  }
             }
     }
-/*END FWB*/
+END FWB*/
 
         
         
