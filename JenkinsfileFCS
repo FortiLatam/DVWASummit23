@@ -124,7 +124,7 @@ END Deploy WITHOUT FWB*/
 
         
         
-/*FGT
+/*FGT*/
     stage('Add FortiGate settings'){
             steps {
                  script { 
@@ -139,7 +139,7 @@ END Deploy WITHOUT FWB*/
                  }
             }
     }
-END FGT*/
+/*END FGT*/
 /*DAST
     stage('DAST'){
             steps {
