@@ -10,10 +10,10 @@ pipeline {
         API_FWB_TOKEN = credentials('FWB_TOKEN')
         API_FGT_TOKEN = credentials('FGT_TOKEN')
         CNAME_APP = "dvwa.fortixperts.com"
-        ZONE_ID = "Z038024434JSU4YEEE1I7"
+        ZONE_ID = "xxxx"
         SDN_NAME = "EKSSDN"
         DYN_ADDR_NAME = "DVWA_PODS"
-        FGT_IP = "34.204.90.236"
+        FGT_IP = "xxx"
         FGT_PORT = "8443"
     }
    
