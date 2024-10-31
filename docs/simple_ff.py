@@ -23,7 +23,7 @@ credentials = {
 address = {
     "country": "USA",
     "name": "Botfather",
-    "mobile": "+1234567890",
+    "mobile": "1234567890",
     "zip_code": "12345",
     "address": "Street where the Bots live 1337",
     "city": "San Francisco",
