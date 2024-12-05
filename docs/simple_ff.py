@@ -13,7 +13,7 @@ import requests
 
 # Global Variables
 #url = "http://20.230.36.148:3000"
-url = "http://34.201.121.225:3000"
+url = "http://XXX.XXX.XXX.XXX:3000"
 
 credentials = {
     "email": "botfather@bots.corp",
