@@ -12,7 +12,7 @@ from time import sleep
 import requests
 import subprocess
 
-subprocess.run(["xrandr --output DUMMY0 --mode 1920x1080"])
+subprocess.run(["xrandr", "--output", "DUMMY0", "--mode", "1920x1080"])
 
 # Global Variables
 #url = "http://20.230.36.148:3000"
